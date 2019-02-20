@@ -1,21 +1,22 @@
-scriptname TG07BarScript extends ObjectReference
-{Handles the bars in Riftweald Manor during and after TG07 "The Pursuit".}
+ScriptName TG07BarScript Extends ObjectReference
+{Handles the bars in Riftweald Manor during and after "The Pursuit"}
 
-Actor property PlayerREF auto
-Message property TG07BarDoorOpenMSG auto
-Quest property TG08B auto
+Message Property TG07BarDoorOpenMSG Auto
+Quest Property TG08B Auto
 
 
 Event OnLoad()
-	BlockActivation()
-	if (TG08B.IsCompleted())	;Once Mercer is dead these bars have no longer any use.
-		SetPosition(0.0, 0.0, 0.0) ;Disable() doesn't work here because of the Enable Parents.
-	endif
+	If (TG08B.IsCompleted())
+		; Disable() doesn't work because of the enable parent
+		SetPosition(0.0, 0.0, 0.0)
+	Else
+		BlockActivation()
+	EndIf
 EndEvent
 
 
 Event OnActivate(ObjectReference akActionRef)
-	if (akActionRef == PlayerREF && IsActivationBlocked())
+	If (IsActivationBlocked() && akActionRef == Game.GetPlayer())
 		TG07BarDoorOpenMSG.Show()
-	endif
-EndEvent 
+	EndIf
+EndEvent

@@ -1,35 +1,27 @@
-scriptname MG02AmuletScript extends ObjectReference
-{The script attached to the Saarthal Amulet.}
+ScriptName MG02AmuletScript Extends ObjectReference
 
-Message property pMG02TestWallMessage auto
-ObjectReference property MG02AmuletResonanceRef auto
-Quest property pMG02QuestScript auto
-ReferenceAlias property MG02WallAlias auto
-Scene property MG02TolfdirAmuletScene auto
-Spell property AmuletSpell auto
-Int DoOnce
+Message Property pMG02TestWallMessage Auto
+ObjectReference Property MG02AmuletResonanceRef Auto
+Quest Property pMG02QuestScript Auto
+ReferenceAlias Property MG02WallAlias Auto
+Scene Property MG02TolfdirAmuletScene Auto
+Spell Property AmuletSpell Auto
+
+Int DoOnce = 0
 
 
 Event OnEquipped(Actor AkActor)
-
-		MG02QuestScript QuestScript = pMG02QuestScript as MG02QuestScript
-
-	if (pMG02QuestScript.IsStageDone(10))	;We do nothing if the player isn't here for MG02.
-
-		if (DoOnce == 0)
+	If (pMG02QuestScript.IsRunning())
+		If (DoOnce == 0)
 			MG02TolfdirAmuletScene.Start()
-			DoOnce=1
-		endif
-
-	endif
-	if (QuestScript.TolfdirUpdate == 0)
+			DoOnce = 1
+		EndIf
+	Endif
+	If ((pMG02QuestScript As MG02QuestScript).TolfdirUpdate == 0)
 		MG02AmuletResonanceRef.PlayAnimation("PlayAnim02")
-	endif
+	EndIf
 EndEvent
 
-
 Event OnUnequipped(Actor AkActor)
-
 	MG02AmuletResonanceRef.PlayAnimation("PlayAnim01")
-
-EndEvent 
+EndEvent
