@@ -4,20 +4,34 @@ The door to the secret room can be picked. The door automatically closes wheneve
 Ustengrav:
 The whole dungeon is unlocked. Whirlwind Sprint is still required to reach the end of the dungeon.
 
+High Hrothgar:
+The doors are unlocked.
+
+Thalmor Embassy:
+The Thalmor Embassy can be unlocked in the MCM.
+
+Skyhaven Temple:
+Skyhaven Temple can be unlocked in the MCM.
+
+Skuldafn:
+You can use the MCM to start a quest that will bring you to Skuldafn.
+
+
 Dustmans Cairn:
 The whole dungeon is unlocked.
 
 Ysgramors Tomb:
 Removed door that blocked exit to the hill. Wuuthrad is still required to access the rest of the tomb.
 
-Arch-Mage's Quarters:
-Doors can be picked.
 
 Saarthal:
 The vestibule is unlocked. After taking and equipping the Saarthal Amulet, the wall that blocks the rest of the dungeon can be destroyed by magic or melee attacks.
 
+Arch-Mage's Quarters:
+Doors can be picked.
+
 Fellglow Keep:
-The whole dungeon is unlocked.
+The whole dungeon is unblocked.
 
 Mzulft:
 The whole dungeon is enabled by default.
@@ -25,29 +39,6 @@ The whole dungeon is enabled by default.
 Labyrinthian:
 The whole dungeon can be enabled in the MCM.
 
-Ilinaltas Deep
-The whole dungeon is enabled by default.
-
-Knifepoint Ridge:
-The whole dungeon is enabled by default.
-
-Whispering Door:
-Replaced requires a key locked door.
-
-Kilkreath Ruins:
-The dungeon is enabled by default. You still need Meridias beacon to open the whole dungeon.
-
-Reachcliff Cave:
-The whole dungeon is enabled by default.
-
-Bthardamz:
-The whole dungeon is enabled by default.
-
-Pelagius Wing:
-Replaced requires a key locked door.
-
-Abandoned House:
-Replaced requires a key locked doors. Added alternate ending: If Molag Bal orders you to kill Logrolf you can throw his mace away to end the quest.
 
 Goldenglow Estate:
 The whole estate is enabled by default.
@@ -73,8 +64,6 @@ The whole dungeon can be enabled in the MCM.
 Twilight Sepulcher:
 The dungeon is enabled by default.
 
-Korvanjund:
-The whole dungeon is enabled by default.
 
 Abandoned Shack:
 Replaced requires a key locked door.
@@ -85,11 +74,31 @@ The whole dungeon is enabled by default.
 The Katariah:
 The Katariah can be unlocked in the MCM.
 
-Thalmor Embassy:
-The Embassy can be unlocked in the MCM.
 
-Skuldafn:
-You can use the MCM to start a quest which will bring you to Skuldafn.
+Ilinaltas Deep
+The whole dungeon is enabled by default.
+
+Knifepoint Ridge:
+The whole dungeon is enabled by default.
+
+Whispering Door:
+The Whispering Door can be picked.
+
+Kilkreath Ruins:
+The dungeon is enabled by default. You still need Meridias beacon to open the whole dungeon.
+
+Reachcliff Cave:
+The whole dungeon is enabled by default.
+
+Bthardamz:
+The whole dungeon is enabled by default.
+
+Pelagius Wing:
+Replaced requires a key locked door.
+
+Abandoned House:
+Replaced requires a key locked doors. Added alternate ending: If Molag Bal orders you to kill Logrolf you can throw his mace away to end the quest.
+
 
 Angarvunde:
 Replaced requires a key locked doors.
@@ -103,6 +112,9 @@ The whole dungeon is enabled by default.
 Cidhna Mine:
 Replaced requires a key locked doors.
 
+Korvanjund:
+The whole dungeon is enabled by default.
+
 Potemas Catacombs:
 Replaced requires a key locked doors.
 
@@ -111,6 +123,7 @@ Replaced requires a key locked doors.
 
 Riften Warehouse:
 Replaced requires a key locked doors.
+
 
 Breezehome:
 Replaced requires a key locked door.
