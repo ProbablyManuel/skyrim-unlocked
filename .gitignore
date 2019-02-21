@@ -1,2 +1,3 @@
 *.7z
 *.log
+__pycache__/
