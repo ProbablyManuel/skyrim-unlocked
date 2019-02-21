@@ -86,49 +86,48 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
                 if version_stamp not in fh.read():
                     logger.warning(os.path.basename(path_plugin) +
                                    " doesn't have the correct version stamp")
-    # dir_temp is the directory where temporary files will be stored
-    dir_temp = tempfile.mkdtemp()
-    # dir_temp_fomod is the directory where the fomod tree will be created
-    dir_temp_fomod = os.path.join(dir_temp, name_release)
-    os.mkdir(dir_temp_fomod)
-    # Copy fomod files to the fomod tree
-    src = os.path.join(dir_source, "Fomod")
-    dst = os.path.join(dir_temp_fomod, "Fomod")
-    shutil.copytree(src, dst)
-    # Copy sub directories to the fomod tree
-    for sub_dir in sub_dirs:
-        plugins = find_plugins(os.path.join(dir_source, sub_dir))
-        if plugins and archive_exe:
-            # Copy only the plugin
-            plugin = plugins[0]
-            dst = os.path.join(dir_temp_fomod, sub_dir)
-            os.mkdir(dst)
-            src = os.path.join(dir_source, sub_dir, plugin)
-            dst = os.path.join(dir_temp_fomod, sub_dir, plugin)
-            shutil.copy(src, dst)
-            # Build the bsa
-            name_bsa = plugin.replace(".esp", ".bsa")
-            src = os.path.join(dir_source, sub_dir)
-            dst = os.path.join(dir_temp_fomod, sub_dir, name_bsa)
-            bsa.build_bsa(archive_exe, src, dst)
-        else:
-            # Copy everything
-            src = os.path.join(dir_source, sub_dir)
-            dst = os.path.join(dir_temp_fomod, sub_dir)
-            shutil.copytree(src, dst)
-    # Package fomod tree into a 7zip archive
-    name_archive = name_release + " " + version + ".7z"
-    # Remove whitespaces because GitHub doesn't like them
-    name_archive = "_".join(name_archive.split())
-    path_archive = os.path.join(dir_target, name_archive)
-    if os.path.isfile(path_archive):
-        os.remove(path_archive)
-    cmd = ["7z", "a", path_archive, dir_temp_fomod]
-    logger.debug("Running command \"" + " ".join(cmd) + "\"")
-    sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
-    sp.check_returncode()
-    logger.info("Succesfully built archive for " + version + " of " +
-                name_release)
+    with tempfile.TemporaryDirectory() as dir_temp:
+        # dir_temp_fomod is the directory where the fomod tree will be created
+        dir_temp_fomod = os.path.join(dir_temp, name_release)
+        os.mkdir(dir_temp_fomod)
+        # Copy fomod files to the fomod tree
+        src = os.path.join(dir_source, "Fomod")
+        dst = os.path.join(dir_temp_fomod, "Fomod")
+        shutil.copytree(src, dst)
+        # Copy sub directories to the fomod tree
+        for sub_dir in sub_dirs:
+            plugins = find_plugins(os.path.join(dir_source, sub_dir))
+            if plugins and archive_exe:
+                # Copy only the plugin
+                plugin = plugins[0]
+                dst = os.path.join(dir_temp_fomod, sub_dir)
+                os.mkdir(dst)
+                src = os.path.join(dir_source, sub_dir, plugin)
+                dst = os.path.join(dir_temp_fomod, sub_dir, plugin)
+                shutil.copy(src, dst)
+                # Build the bsa
+                name_bsa = plugin.replace(".esp", ".bsa")
+                src = os.path.join(dir_source, sub_dir)
+                dst = os.path.join(dir_temp_fomod, sub_dir, name_bsa)
+                bsa.build_bsa(archive_exe, src, dst)
+            else:
+                # Copy everything
+                src = os.path.join(dir_source, sub_dir)
+                dst = os.path.join(dir_temp_fomod, sub_dir)
+                shutil.copytree(src, dst)
+        # Package fomod tree into a 7zip archive
+        name_archive = name_release + " " + version + ".7z"
+        # Remove whitespaces because GitHub doesn't like them
+        name_archive = "_".join(name_archive.split())
+        path_archive = os.path.join(dir_target, name_archive)
+        if os.path.isfile(path_archive):
+            os.remove(path_archive)
+        cmd = ["7z", "a", path_archive, dir_temp_fomod]
+        logger.debug("Running command \"" + " ".join(cmd) + "\"")
+        sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
+        sp.check_returncode()
+        logger.info("Succesfully built archive for " + version + " of " +
+                    name_release)
 
 
 def find_plugins(source_dir):
