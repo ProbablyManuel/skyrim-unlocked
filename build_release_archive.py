@@ -1,3 +1,4 @@
+import bsa
 import config
 import logging
 import os
@@ -7,7 +8,7 @@ import tempfile
 import xml.etree.ElementTree
 
 
-def build_release_archive(dir_source, dir_target, bsa):
+def build_release_archive(dir_source, dir_target, archive_exe=None):
     """Build a release archive.
 
     Args:
@@ -18,7 +19,8 @@ def build_release_archive(dir_source, dir_target, bsa):
             specified in ModuleConfig.xml. A subdirectory is expected to
             contain at most one plugin.
         dir_target: The target directory for the release archive.
-        bsa: Pass True to pack loose files into a BSA.
+        archive_exe: The executable that creates the bsa.
+            If ommited no bsa will be created.
     """
     # Set up logger
     name_script = os.path.splitext(os.path.basename(__file__))[0]
@@ -65,6 +67,9 @@ def build_release_archive(dir_source, dir_target, bsa):
         if not os.path.isdir(os.path.join(dir_source, sub_dir)):
             logger.error("Subdirectory " + sub_dir + " is missing")
             exit()
+        if len(find_plugins(os.path.join(dir_source, sub_dir))) > 1:
+            logger.warning("Subdirectory " + sub_dir +
+                           " contains multiple plugins")
     # Get version number and release name from info.xml
     path = os.path.join(dir_source_fomod, "Info.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
@@ -75,35 +80,39 @@ def build_release_archive(dir_source, dir_target, bsa):
     # Validate version stamp of plugins
     version_stamp = bytes("Version: " + version, "utf8")
     for sub_dir in sub_dirs:
-        for file in os.listdir(os.path.join(dir_source, sub_dir)):
-            if os.path.splitext(file)[1] == ".esp":
-                plugin_path = os.path.join(dir_source, sub_dir, file)
-                with open(plugin_path, "rb") as fh:
-                    if version_stamp not in fh.read():
-                        logger.warning(os.path.basename(file) + " doesn't have"
-                                       "the correct version stamp")
+        for plugin in find_plugins(os.path.join(dir_source, sub_dir)):
+            path_plugin = os.path.join(dir_source, sub_dir, plugin)
+            with open(path_plugin, "rb") as fh:
+                if version_stamp not in fh.read():
+                    logger.warning(os.path.basename(path_plugin) +
+                                   " doesn't have the correct version stamp")
     # dir_temp is the directory where temporary files will be stored
     dir_temp = tempfile.mkdtemp()
     # dir_temp_fomod is the directory where the fomod tree will be created
     dir_temp_fomod = os.path.join(dir_temp, name_release)
     os.mkdir(dir_temp_fomod)
-    # Copy fomod files
+    # Copy fomod files to the fomod tree
     src = os.path.join(dir_source, "Fomod")
     dst = os.path.join(dir_temp_fomod, "Fomod")
     shutil.copytree(src, dst)
-    # Copy sub directories
+    # Copy sub directories to the fomod tree
     for sub_dir in sub_dirs:
-        if bsa:
-            plugin = None
-            for file in os.listdir(os.path.join(dir_source, sub_dir)):
-                if os.path.splitext(file)[1] == ".esp":
-                    plugin = file
-            if plugin:
-                src = os.path.join(dir_source, sub_dir, plugin)
-                dst = os.path.join(dir_temp_fomod, sub_dir, plugin)
-                shutil.copy(src, dst)
-                # TODO: Build BSA
+        plugins = find_plugins(os.path.join(dir_source, sub_dir))
+        if plugins and archive_exe:
+            # Copy only the plugin
+            plugin = plugins[0]
+            dst = os.path.join(dir_temp_fomod, sub_dir)
+            os.mkdir(dst)
+            src = os.path.join(dir_source, sub_dir, plugin)
+            dst = os.path.join(dir_temp_fomod, sub_dir, plugin)
+            shutil.copy(src, dst)
+            # Build the bsa
+            name_bsa = plugin.replace(".esp", ".bsa")
+            src = os.path.join(dir_source, sub_dir)
+            dst = os.path.join(dir_temp_fomod, sub_dir, name_bsa)
+            bsa.build_bsa(archive_exe, src, dst)
         else:
+            # Copy everything
             src = os.path.join(dir_source, sub_dir)
             dst = os.path.join(dir_temp_fomod, sub_dir)
             shutil.copytree(src, dst)
@@ -118,11 +127,17 @@ def build_release_archive(dir_source, dir_target, bsa):
     logger.debug("Running command \"" + " ".join(cmd) + "\"")
     sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
     sp.check_returncode()
-    # Clean up temporary directory
-    shutil.rmtree(dir_temp)
     logger.info("Succesfully built archive for " + version + " of " +
                 name_release)
 
 
+def find_plugins(source_dir):
+    """Find all plugins in a directory. Does not search in subdirectories."""
+    extensions = [".esl", ".esp", ".esm"]
+    files = os.listdir(source_dir)
+    plugins = [f for f in files if os.path.splitext(f)[1] in extensions]
+    return plugins
+
+
 if __name__ == '__main__':
-    build_release_archive(config.dir_le, config.dir_repo, False)
+    build_release_archive(config.dir_le, config.dir_repo)
