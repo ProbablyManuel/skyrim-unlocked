@@ -1,3 +1,3 @@
-*.7z
-*.log
-__pycache__/
+Releases/*.7z
+Releases/*.log
+Releases/__pycache__
