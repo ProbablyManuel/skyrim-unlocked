@@ -7,10 +7,10 @@
 					<plugins order="Explicit">
 						<plugin name="Main File">
 							<description>
-								
+								TBA
 							</description>
 							<files>
-								<folder source="Skyrim Unlocked" destination="" priority="0"/>
+								<folder source="Skyrim Unlocked" destination=""/>
 							</files>
 							<typeDescriptor>
 								<type name="Required"/>
@@ -29,7 +29,7 @@
 								Requires Enhanced Skyrim Factions - The Companions Guild. Resolves all conflicts between the two mods.
 							</description>
 							<files>
-								<folder source="Skyrim Unlocked - ESF" destination="" priority="0"/>
+								<folder source="Skyrim Unlocked - ESF" destination=""/>
 							</files>
 							<typeDescriptor>
 								<dependencyType>
@@ -38,27 +38,6 @@
 										<pattern>
 											<dependencies operator="And">
 												<fileDependency file="ESFCompanions.esp" state="Active"/>
-											</dependencies>
-											<type name="Recommended"/>
-										</pattern>
-									</patterns>
-								</dependencyType>
-							</typeDescriptor>
-						</plugin>
-						<plugin name="Open Cities Skyrim">
-							<description>
-								Requires Open Cities Skyrim. Resolves all conflicts between the two mods.
-							</description>
-							<files>
-								<folder source="Skyrim Unlocked - OCS" destination="" priority="0"/>
-							</files>
-							<typeDescriptor>
-								<dependencyType>
-									<defaultType name="Optional"/>
-									<patterns>
-										<pattern>
-											<dependencies operator="And">
-												<fileDependency file="Open Cities Skyrim.esp" state="Active"/>
 											</dependencies>
 											<type name="Recommended"/>
 										</pattern>
