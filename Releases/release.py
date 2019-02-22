@@ -36,7 +36,7 @@ class ArchiveFlags():
 
 
 def build_release(dir_source, dir_target, archive_exe=None,
-                  archive_flags=None):
+                  archive_flags: ArchiveFlags = ArchiveFlags()):
     """Build a release archive.
 
     Args:
@@ -132,25 +132,20 @@ def build_release(dir_source, dir_target, archive_exe=None,
             if plugins and archive_exe:
                 # Create subdirectory
                 os.mkdir(os.path.join(dir_temp, sub_dir))
-                # Copy only the plugin
-                file_plugin = plugins[0]
-                src = os.path.join(dir_source, sub_dir, file_plugin)
-                dst = os.path.join(dir_temp, sub_dir, file_plugin)
-                shutil.copy(src, dst)
-                # Copy associated ini file (if present)
-                file_ini = os.path.splitext(file_plugin)[0] + ".ini"
-                src = os.path.join(dir_source, sub_dir, file_ini)
-                dst = os.path.join(dir_temp, sub_dir, file_ini)
-                if os.path.isfile(src):
-                    shutil.copy(src, dst)
                 # Build the bsa
-                file_bsa = os.path.splitext(file_plugin)[0] + ".bsa"
+                bsa = os.path.splitext(plugins[0])[0] + ".bsa"
                 src = os.path.join(dir_source, sub_dir)
-                dst = os.path.join(dir_temp, sub_dir, file_bsa)
-                if archive_flags:
-                    build_bsa(archive_exe, src, dst, archive_flags)
-                else:
-                    build_bsa(archive_exe, src, dst, ArchiveFlags())
+                dst = os.path.join(dir_temp, sub_dir, bsa)
+                build_bsa(archive_exe, src, dst, archive_flags)
+                # Copy all files that aren't packed in the bsa
+                for path in os.listdir(os.path.join(dir_source, sub_dir)):
+                    src = os.path.join(dir_source, sub_dir, path)
+                    dst = os.path.join(dir_temp, sub_dir, path)
+                    if os.path.isfile(src):
+                        shutil.copy2(src, dst)
+                    elif os.path.isdir(src):
+                        if path.lower() not in bsa_include_dirs:
+                            shutil.copytree(src, dst)
             else:
                 # Copy everything
                 src = os.path.join(dir_source, sub_dir)
