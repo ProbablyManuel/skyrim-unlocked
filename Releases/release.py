@@ -99,6 +99,14 @@ def build_release(dir_source, dir_target, archive_exe=None,
                                     sub_dirs.append(folder.get("source"))
                                 for file in files.iterfind("file"):
                                     loose_files.append(file.get("source"))
+    for conditionalFileInstalls in root.iterfind("conditionalFileInstalls"):
+        for patterns in conditionalFileInstalls.iterfind("patterns"):
+            for pattern in patterns.iterfind("pattern"):
+                for files in pattern.iterfind("files"):
+                    for folder in files.iterfind("folder"):
+                        sub_dirs.append(folder.get("source"))
+                    for file in files.iterfind("file"):
+                        loose_files.append(file.get("source"))
     # Validate subdirectories
     logger.info("Subdirectories required by the Fomod installer:")
     for sub_dir in sub_dirs:
