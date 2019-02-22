@@ -74,9 +74,7 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
     path = os.path.join(dir_source_fomod, "Info.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
     version = root.find("Version").text
-    logger.debug("Release version is " + str(version))
     name_release = root.find("Name").text
-    logger.debug("Release name is " + name_release)
     # Validate version stamp of plugins
     version_stamp = bytes("Version: " + version, "utf8")
     for sub_dir in sub_dirs:
@@ -122,7 +120,6 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
         if os.path.isfile(dst):
             os.remove(dst)
         cmd = ["7z", "a", dst, src]
-        logger.debug("Running command \"" + " ".join(cmd) + "\"")
         sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
         sp.check_returncode()
         logger.info("Succesfully built archive for " + version + " of " +
