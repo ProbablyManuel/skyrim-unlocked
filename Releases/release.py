@@ -14,6 +14,27 @@ bsa_include_dirs = ["interface", "meshes", "music", "textures", "scripts",
                     "seq", "shadersfx", "sound", "strings"]
 
 
+class ArchiveFlags():
+    """Flags for Archive.exe"""
+
+    def __init__(self):
+        self.check_meshes = False
+        self.check_textures = False
+        self.check_menus = False
+        self.check_sounds = False
+        self.check_voices = False
+        self.check_shaders = False
+        self.check_trees = False
+        self.check_fonts = False
+        self.check_misc = False
+        self.check_compress_archive = False
+        self.check_retain_directory_names = False
+        self.check_retain_file_names = False
+        self.check_retain_file_name_offsets = False
+        self.check_retain_strings_during_startup = False
+        self.check_embed_file_name = False
+
+
 def build_release(dir_source, dir_target, archive_exe=None,
                   archive_flags=None):
     """Build a release archive.
@@ -151,7 +172,8 @@ def build_release(dir_source, dir_target, archive_exe=None,
     logger.removeHandler(handler)
 
 
-def build_bsa(archive_exe, dir_source, bsa_target, archive_flags):
+def build_bsa(archive_exe, dir_source, bsa_target,
+              archive_flags: ArchiveFlags):
     """Build a bsa.
 
     Args:
@@ -230,24 +252,3 @@ def find_plugins(source_dir):
     """Find all plugins in a directory. Does not search in subdirectories."""
     files = os.listdir(source_dir)
     return [f for f in files if os.path.splitext(f)[1] in plugin_exts]
-
-
-class ArchiveFlags():
-    """Flags for Archive.exe"""
-
-    def __init__(self):
-        self.check_meshes = False
-        self.check_textures = False
-        self.check_menus = False
-        self.check_sounds = False
-        self.check_voices = False
-        self.check_shaders = False
-        self.check_trees = False
-        self.check_fonts = False
-        self.check_misc = False
-        self.check_compress_archive = False
-        self.check_retain_directory_names = False
-        self.check_retain_file_names = False
-        self.check_retain_file_name_offsets = False
-        self.check_retain_strings_during_startup = False
-        self.check_embed_file_name = False
