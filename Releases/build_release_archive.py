@@ -139,4 +139,5 @@ def find_plugins(source_dir):
 
 
 if __name__ == '__main__':
-    build_release_archive(config.dir_le, config.dir_repo)
+    dst = os.path.join(config.dir_repo, "Releases")
+    build_release_archive(config.dir_le, dst)
