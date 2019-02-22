@@ -226,6 +226,9 @@ def build_bsa(archive_exe, dir_source, bsa_target,
                     first_dir = path_relative.parts[0]
                     if first_dir.lower() in bsa_include_dirs:
                         manifest.write(str(path_relative) + "\n")
+        # Exit if manifest is empty because Archive.exe will crash
+        if os.path.getsize(path_manifest) == 0:
+            return
         # Create batch file
         path_batch = os.path.join(dir_temp, "Batch.txt")
         with open(path_batch, "w") as batch:
