@@ -1,0 +1,7 @@
+- Built-in compatibility for Immersive College of Winterhold, Live Another Life and mods that edit the vanilla player homes. Compatibility patches are no longer necessary.
+- Thalmor Embassy can be unlocked in the MCM.
+- SKyhaven Temple can be unlocked in the MCM.
+- High Hrothgar is accessible at any time.
+- The Whispering Door can be unlocked at any time which starts the associated quest.
+- MCM supports localization.
+- Files are packed into a BSA. Make sure to completely uninstall old versions of Skyrim Unlocked before updating to 2.0.0.
