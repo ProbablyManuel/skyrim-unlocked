@@ -45,6 +45,27 @@
 								</dependencyType>
 							</typeDescriptor>
 						</plugin>
+						<plugin name="Open Cities Skyrim">
+							<description>
+								Requires Open Cities Skyrim. Resolves all conflicts between the two mods.
+							</description>
+							<files>
+								<folder source="Skyrim Unlocked - OCS" destination=""/>
+							</files>
+							<typeDescriptor>
+								<dependencyType>
+									<defaultType name="Optional"/>
+									<patterns>
+										<pattern>
+											<dependencies operator="And">
+												<fileDependency file="Open Cities Skyrim.esp" state="Active"/>
+											</dependencies>
+											<type name="Recommended"/>
+										</pattern>
+									</patterns>
+								</dependencyType>
+							</typeDescriptor>
+						</plugin>
 					</plugins>
 				</group>
 			</optionalFileGroups>
