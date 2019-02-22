@@ -101,6 +101,12 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
                 src = os.path.join(dir_source, sub_dir, file_plugin)
                 dst = os.path.join(dir_temp, sub_dir, file_plugin)
                 shutil.copy(src, dst)
+                # Copy associated ini file (if present)
+                file_ini = plugins[0].replace(".esp", ".ini")
+                src = os.path.join(dir_source, sub_dir, file_ini)
+                dst = os.path.join(dir_temp, sub_dir, file_ini)
+                if os.path.isfile(src):
+                    shutil.copy(src, dst)
                 # Build the bsa
                 file_bsa = file_plugin.replace(".esp", ".bsa")
                 src = os.path.join(dir_source, sub_dir)
