@@ -5,6 +5,9 @@ import subprocess
 import tempfile
 import xml.etree.ElementTree
 
+"""Valid extensions of a plugin."""
+plugin_exts = [".esl", ".esp", ".esm"]
+
 
 def build_release_archive(dir_source, dir_target, archive_exe=None):
     """Build a release archive.
@@ -100,13 +103,13 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
                 dst = os.path.join(dir_temp, sub_dir, file_plugin)
                 shutil.copy(src, dst)
                 # Copy associated ini file (if present)
-                file_ini = plugins[0].replace(".esp", ".ini")
+                file_ini = os.path.splitext(file_plugin)[0] + ".ini"
                 src = os.path.join(dir_source, sub_dir, file_ini)
                 dst = os.path.join(dir_temp, sub_dir, file_ini)
                 if os.path.isfile(src):
                     shutil.copy(src, dst)
                 # Build the bsa
-                file_bsa = file_plugin.replace(".esp", ".bsa")
+                file_bsa = os.path.splitext(file_plugin)[0] + ".bsa"
                 src = os.path.join(dir_source, sub_dir)
                 dst = os.path.join(dir_temp, sub_dir, file_bsa)
                 build_bsa(archive_exe, src, dst)
@@ -154,7 +157,7 @@ def build_bsa(archive_exe, dir_source, bsa_target):
                 short_root = root[len(dir_source):]
                 for file in files:
                     extension = os.path.splitext(file)[1]
-                    if extension not in [".esl", ".esp", ".esm"]:
+                    if extension not in plugin_exts:
                         manifest.write(os.path.join(short_root, file) + "\n")
         # Create batch file
         path_batch = os.path.join(dir_temp, "Batch.txt")
@@ -191,7 +194,5 @@ def build_bsa(archive_exe, dir_source, bsa_target):
 
 def find_plugins(source_dir):
     """Find all plugins in a directory. Does not search in subdirectories."""
-    extensions = [".esl", ".esp", ".esm"]
     files = os.listdir(source_dir)
-    plugins = [f for f in files if os.path.splitext(f)[1] in extensions]
-    return plugins
+    return [f for f in files if os.path.splitext(f)[1] in plugin_exts]
