@@ -179,9 +179,9 @@ def build_release(dir_source, dir_target, archive_exe=None,
                 shutil.copytree(src, dst)
         # Copy loose files to the fomod tree
         for file in loose_files:
-            src = os.path.join(dir_source, path)
-            dst = os.path.join(dir_temp, path)
-            os.makedirs(os.path.basename(dst), exist_ok=True)
+            src = os.path.join(dir_source, file)
+            dst = os.path.join(dir_temp, file)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
             shutil.copy2(src, dst)
         # Pack fomod tree into a 7zip archive
         file_archive = "{} {}.7z".format(name_release, version)
