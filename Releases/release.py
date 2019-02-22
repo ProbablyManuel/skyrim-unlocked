@@ -8,6 +8,9 @@ import xml.etree.ElementTree
 """Valid extensions of a plugin."""
 plugin_exts = [".esl", ".esp", ".esm"]
 
+"""Valid extensions of files that can be included in a bsa."""
+bsa_include_exts = [".pex", ".psc", ".nif", ".dds"]
+
 
 def build_release(dir_source, dir_target, archive_exe=None):
     """Build a release archive.
@@ -144,8 +147,7 @@ def build_bsa(archive_exe, dir_source, bsa_target):
 
     Args:
         archive_exe: The executable that creates the bsa.
-        dir_source: All files in this directory excluding plugins are packed
-            into the bsa.
+        dir_source: All valid files in this directory are packed into the bsa.
         bsa_target: Target destination of the bsa.
             This is the final path e.g. /Some/Path/Mod.bsa
     """
@@ -163,7 +165,7 @@ def build_bsa(archive_exe, dir_source, bsa_target):
                 short_root = root[len(dir_source):]
                 for file in files:
                     extension = os.path.splitext(file)[1]
-                    if extension not in plugin_exts:
+                    if extension in bsa_include_exts:
                         manifest.write(os.path.join(short_root, file) + "\n")
         # Create batch file
         path_batch = os.path.join(dir_temp, "Batch.txt")
