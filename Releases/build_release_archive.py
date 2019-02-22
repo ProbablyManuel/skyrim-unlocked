@@ -86,43 +86,42 @@ def build_release_archive(dir_source, dir_target, archive_exe=None):
                 if version_stamp not in fh.read():
                     logger.warning(os.path.basename(path_plugin) +
                                    " doesn't have the correct version stamp")
+    # Build fomod tree in a temporary directory
     with tempfile.TemporaryDirectory() as dir_temp:
-        # dir_temp_fomod is the directory where the fomod tree will be created
-        dir_temp_fomod = os.path.join(dir_temp, name_release)
-        os.mkdir(dir_temp_fomod)
         # Copy fomod files to the fomod tree
         src = os.path.join(dir_source, "Fomod")
-        dst = os.path.join(dir_temp_fomod, "Fomod")
+        dst = os.path.join(dir_temp, "Fomod")
         shutil.copytree(src, dst)
-        # Copy sub directories to the fomod tree
+        # Copy subdirectories to the fomod tree
         for sub_dir in sub_dirs:
             plugins = find_plugins(os.path.join(dir_source, sub_dir))
             if plugins and archive_exe:
+                # Create subdirectory
+                os.mkdir(os.path.join(dir_temp, sub_dir))
                 # Copy only the plugin
-                plugin = plugins[0]
-                dst = os.path.join(dir_temp_fomod, sub_dir)
-                os.mkdir(dst)
-                src = os.path.join(dir_source, sub_dir, plugin)
-                dst = os.path.join(dir_temp_fomod, sub_dir, plugin)
+                file_plugin = plugins[0]
+                src = os.path.join(dir_source, sub_dir, file_plugin)
+                dst = os.path.join(dir_temp, sub_dir, file_plugin)
                 shutil.copy(src, dst)
                 # Build the bsa
-                name_bsa = plugin.replace(".esp", ".bsa")
+                file_bsa = file_plugin.replace(".esp", ".bsa")
                 src = os.path.join(dir_source, sub_dir)
-                dst = os.path.join(dir_temp_fomod, sub_dir, name_bsa)
+                dst = os.path.join(dir_temp, sub_dir, file_bsa)
                 bsa.build_bsa(archive_exe, src, dst)
             else:
                 # Copy everything
                 src = os.path.join(dir_source, sub_dir)
-                dst = os.path.join(dir_temp_fomod, sub_dir)
+                dst = os.path.join(dir_temp, sub_dir)
                 shutil.copytree(src, dst)
-        # Package fomod tree into a 7zip archive
-        name_archive = name_release + " " + version + ".7z"
-        # Remove whitespaces because GitHub doesn't like them
-        name_archive = "_".join(name_archive.split())
-        path_archive = os.path.join(dir_target, name_archive)
-        if os.path.isfile(path_archive):
-            os.remove(path_archive)
-        cmd = ["7z", "a", path_archive, dir_temp_fomod]
+        # Pack fomod tree into a 7zip archive
+        file_archive = name_release + " " + version + ".7z"
+        # Remove whitespaces from archive name because GitHub doesn't like them
+        file_archive = "_".join(file_archive.split())
+        src = os.path.join(dir_temp, "*")
+        dst = os.path.join(dir_target, file_archive)
+        if os.path.isfile(dst):
+            os.remove(dst)
+        cmd = ["7z", "a", dst, src]
         logger.debug("Running command \"" + " ".join(cmd) + "\"")
         sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
         sp.check_returncode()
