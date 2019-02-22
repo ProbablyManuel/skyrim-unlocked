@@ -9,7 +9,7 @@ import xml.etree.ElementTree
 plugin_exts = [".esl", ".esp", ".esm"]
 
 
-def build_release_archive(dir_source, dir_target, archive_exe=None):
+def build_release(dir_source, dir_target, archive_exe=None):
     """Build a release archive.
 
     Args:

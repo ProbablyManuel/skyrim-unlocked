@@ -6,4 +6,4 @@ import release
 
 src = config.dir_le
 dst = os.path.join(config.dir_repo, "Releases")
-release.build_release_archive(src, dst)
+release.build_release(src, dst)
