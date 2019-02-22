@@ -12,7 +12,8 @@ plugin_exts = [".esl", ".esp", ".esm"]
 bsa_include_exts = [".pex", ".psc", ".nif", ".dds"]
 
 
-def build_release(dir_source, dir_target, archive_exe=None):
+def build_release(dir_source, dir_target, archive_exe=None,
+                  archive_flags=None):
     """Build a release archive.
 
     Args:
@@ -25,6 +26,8 @@ def build_release(dir_source, dir_target, archive_exe=None):
         dir_target: The target directory for the release archive.
         archive_exe: The executable that creates the bsa.
             If ommited no bsa will be created.
+        archive_flags: Check the corresponding options in Archive.exe
+            If ommited no flags will be set.
     """
     logger = logging.getLogger(build_release.__name__)
     logger.setLevel(logging.INFO)
@@ -121,7 +124,10 @@ def build_release(dir_source, dir_target, archive_exe=None):
                 file_bsa = os.path.splitext(file_plugin)[0] + ".bsa"
                 src = os.path.join(dir_source, sub_dir)
                 dst = os.path.join(dir_temp, sub_dir, file_bsa)
-                build_bsa(archive_exe, src, dst)
+                if archive_flags:
+                    build_bsa(archive_exe, src, dst, archive_flags)
+                else:
+                    build_bsa(archive_exe, src, dst, ArchiveFlags())
             else:
                 # Copy everything
                 src = os.path.join(dir_source, sub_dir)
@@ -143,14 +149,15 @@ def build_release(dir_source, dir_target, archive_exe=None):
     logger.removeHandler(handler)
 
 
-def build_bsa(archive_exe, dir_source, bsa_target):
+def build_bsa(archive_exe, dir_source, bsa_target, archive_flags):
     """Build a bsa.
 
     Args:
-        archive_exe: The executable that creates the bsa.
+        archive_exe: Path to Archive.exe, the executable that creates the bsa.
         dir_source: All valid files in this directory are packed into the bsa.
         bsa_target: Target destination of the bsa.
             This is the final path e.g. /Some/Path/Mod.bsa
+        archive_flags: Check the corresponding options in Archive.exe
     """
     # Some genius at Bethesda had the idea to assume that the first occurence
     # of "Data" in a path must be Skyrim's Data folder. Thus the temporary
@@ -174,21 +181,36 @@ def build_bsa(archive_exe, dir_source, bsa_target):
             path_log = os.path.basename(bsa_target).replace(".bsa", ".log")
             batch.write("Log: " + path_log + "\n")
             batch.write("New Archive\n")
-            batch.write("Check: Meshes\n")
-            batch.write("Check: Textures\n")
-            batch.write("Check: Menus\n")
-            batch.write("Check: Sounds\n")
-            batch.write("Check: Voices\n")
-            batch.write("Check: Shaders\n")
-            batch.write("Check: Trees\n")
-            batch.write("Check: Fonts\n")
-            batch.write("Check: Misc\n")
-            batch.write("Check: Compress Archive\n")
-            batch.write("Check: Retain Directory Names\n")
-            batch.write("Check: Retain File Names\n")
-            batch.write("Check: Retain File Name Offsets\n")
-            batch.write("Check: Retain Strings During Startup\n")
-            batch.write("Check: Embed File Names\n")
+            if archive_flags.check_meshes:
+                batch.write("Check: Meshes\n")
+            if archive_flags.check_textures:
+                batch.write("Check: Textures\n")
+            if archive_flags.check_menus:
+                batch.write("Check: Menus\n")
+            if archive_flags.check_sounds:
+                batch.write("Check: Sounds\n")
+            if archive_flags.check_voices:
+                batch.write("Check: Voices\n")
+            if archive_flags.check_shaders:
+                batch.write("Check: Shaders\n")
+            if archive_flags.check_trees:
+                batch.write("Check: Trees\n")
+            if archive_flags.check_fonts:
+                batch.write("Check: Fonts\n")
+            if archive_flags.check_misc:
+                batch.write("Check: Misc\n")
+            if archive_flags.check_compress_archive:
+                batch.write("Check: Compress Archive\n")
+            if archive_flags.check_retain_directory_names:
+                batch.write("Check: Retain Directory Names\n")
+            if archive_flags.check_retain_file_names:
+                batch.write("Check: Retain File Names\n")
+            if archive_flags.check_retain_file_name_offsets:
+                batch.write("Check: Retain File Name Offsets\n")
+            if archive_flags.check_retain_strings_during_startup:
+                batch.write("Check: Retain Strings During Startup\n")
+            if archive_flags.check_embed_file_name:
+                batch.write("Check: Embed File Names\n")
             batch.write("Set File Group Root: " + path_root + "\n")
             batch.write("Add File Group: " + path_manifest + "\n")
             batch.write("Save Archive: " + bsa_target + "\n")
@@ -205,3 +227,24 @@ def find_plugins(source_dir):
     """Find all plugins in a directory. Does not search in subdirectories."""
     files = os.listdir(source_dir)
     return [f for f in files if os.path.splitext(f)[1] in plugin_exts]
+
+
+class ArchiveFlags():
+    """Flags for Archive.exe"""
+
+    def __init__(self):
+        self.check_meshes = False
+        self.check_textures = False
+        self.check_menus = False
+        self.check_sounds = False
+        self.check_voices = False
+        self.check_shaders = False
+        self.check_trees = False
+        self.check_fonts = False
+        self.check_misc = False
+        self.check_compress_archive = False
+        self.check_retain_directory_names = False
+        self.check_retain_file_names = False
+        self.check_retain_file_name_offsets = False
+        self.check_retain_strings_during_startup = False
+        self.check_embed_file_name = False
