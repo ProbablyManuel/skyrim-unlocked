@@ -87,6 +87,7 @@ def build_release(dir_source, dir_target, archive_exe=None,
     path = os.path.join(dir_source_fomod, "ModuleConfig.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
     sub_dirs = list()
+    loose_files = list()
     for installSteps in root.iterfind("installSteps"):
         for installStep in installSteps.iterfind("installStep"):
             for fileGroups in installStep.iterfind("optionalFileGroups"):
@@ -96,6 +97,8 @@ def build_release(dir_source, dir_target, archive_exe=None,
                             for files in plugin.iterfind("files"):
                                 for folder in files.iterfind("folder"):
                                     sub_dirs.append(folder.get("source"))
+                                for file in files.iterfind("file"):
+                                    loose_files.append(file.get("source"))
     # Validate subdirectories
     logger.info("Subdirectories required by the Fomod installer:")
     for sub_dir in sub_dirs:
@@ -106,6 +109,13 @@ def build_release(dir_source, dir_target, archive_exe=None,
         if len(find_plugins(os.path.join(dir_source, sub_dir))) > 1:
             logger.warning("Subdirectory " + sub_dir +
                            " contains multiple plugins")
+    # Validate loose files
+    logger.info("Loose files required by the Fomod installer:")
+    for file in loose_files:
+        logger.info("   " + file)
+        if not os.path.isfile(os.path.join(dir_source, file)):
+            logger.error("Loose file " + file + " is missing")
+            exit()
     # Get version number and release name from Info.xml
     path = os.path.join(dir_source_fomod, "Info.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
@@ -116,6 +126,13 @@ def build_release(dir_source, dir_target, archive_exe=None,
     for sub_dir in sub_dirs:
         for plugin in find_plugins(os.path.join(dir_source, sub_dir)):
             path_plugin = os.path.join(dir_source, sub_dir, plugin)
+            with open(path_plugin, "rb") as fh:
+                if version_stamp not in fh.read():
+                    logger.warning(plugin +
+                                   " does not have the correct version stamp")
+    for file in loose_files:
+        if os.path.splitext(file)[1] in plugin_exts:
+            path_plugin = os.path.join(dir_source, file)
             with open(path_plugin, "rb") as fh:
                 if version_stamp not in fh.read():
                     logger.warning(plugin +
@@ -151,6 +168,12 @@ def build_release(dir_source, dir_target, archive_exe=None,
                 src = os.path.join(dir_source, sub_dir)
                 dst = os.path.join(dir_temp, sub_dir)
                 shutil.copytree(src, dst)
+        # Copy loose files to the fomod tree
+        for file in loose_files:
+            src = os.path.join(dir_source, path)
+            dst = os.path.join(dir_temp, path)
+            os.makedirs(os.path.basename(dst), exist_ok=True)
+            shutil.copy2(src, dst)
         # Pack fomod tree into a 7zip archive
         file_archive = name_release + " " + version + ".7z"
         # Remove whitespaces from archive name because GitHub doesn't like them
