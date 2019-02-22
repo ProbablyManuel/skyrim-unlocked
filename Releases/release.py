@@ -125,6 +125,22 @@ def build_release(dir_source, dir_target, archive_exe=None,
         if not os.path.isfile(os.path.join(dir_source, file)):
             logger.error("Loose file {} is missing".format(file))
             exit()
+    # Check readmes
+    for sub_dir in sub_dirs:
+        for file in loose_files:
+            (head, tail) = os.path.split(file)
+            if (head == "Readme" and os.path.splitext(tail)[0] == sub_dir):
+                break
+        else:
+            logger.warning("Readme for {} not found".format(sub_dir))
+    # Check modgroups
+    for sub_dir in sub_dirs:
+        for file in loose_files:
+            (head, tail) = os.path.split(file)
+            if (head == "Modgroups" and os.path.splitext(tail)[0] == sub_dir):
+                break
+        else:
+            logger.warning("Modgroups for {} not found".format(sub_dir))
     # Get version number and release name from Info.xml
     path = os.path.join(dir_source_fomod, "Info.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
@@ -137,7 +153,7 @@ def build_release(dir_source, dir_target, archive_exe=None,
             path_plugin = os.path.join(dir_source, sub_dir, plugin)
             with open(path_plugin, "rb") as fh:
                 if version_stamp not in fh.read():
-                    logger.warning("{} does not have the correct version"
+                    logger.warning("{} does not have the correct version "
                                    "stamp".format(plugin))
     for file in loose_files:
         if os.path.splitext(file)[1] in plugin_exts:
