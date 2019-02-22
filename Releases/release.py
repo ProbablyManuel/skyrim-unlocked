@@ -47,22 +47,22 @@ def build_release(dir_source, dir_target, archive_exe=None,
             specified in ModuleConfig.xml. Such a subdirectory is expected
             to contain at most one plugin.
         dir_target: The target directory for the release archive.
-        archive_exe: The executable that creates the bsa.
+        archive_exe: Path to Archive.exe, the executable that creates the bsa.
             If ommited no bsa will be created.
         archive_flags: Check the corresponding options in Archive.exe
             If ommited no flags will be set.
     """
     logger = logging.getLogger(build_release.__name__)
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler(build_release.__name__ + ".log")
+    handler = logging.FileHandler("{}.log".format(build_release.__name__))
     formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.info("------------------------------------------------------------")
     logger.info("Building release")
-    logger.info("Source directory: " + dir_source)
-    logger.info("Target directory: " + dir_target)
-    logger.info("Build bsa: " + str(bool(archive_exe)))
+    logger.info("Source directory: {}".format(dir_source))
+    logger.info("Target directory: {}".format(dir_target))
+    logger.info("Build bsa: {}".format(bool(archive_exe)))
     # Validate arguments
     dir_source_fomod = os.path.join(dir_source, "Fomod")
     if not os.path.isdir(dir_source):
@@ -72,16 +72,17 @@ def build_release(dir_source, dir_target, archive_exe=None,
         logger.error("Target directory does not exist")
         exit()
     if not os.path.isfile(os.path.join(dir_source_fomod, "Info.xml")):
-        logger.error("Info.xml is missing in " + dir_source_fomod)
+        logger.error("Info.xml is missing in {}".format(dir_source_fomod))
         exit()
     if not os.path.isfile(os.path.join(dir_source_fomod, "ModuleConfig.xml")):
-        logger.error("ModuleConfig.xml is missing in " + dir_source_fomod)
+        logger.error("ModuleConfig.xml is missing in {}".
+                     format(dir_source_fomod))
         exit()
     if archive_exe and not os.path.isfile(archive_exe):
-        logger.error("Archive.exe path " + archive_exe + " does not exist")
+        logger.error("Archive.exe path {} does not exist".format(archive_exe))
         exit()
     if archive_exe and os.path.basename(archive_exe) != "Archive.exe":
-        logger.error(archive_exe + " does not point to Archive.exe")
+        logger.error("{} does not point to Archive.exe".format(archive_exe))
         exit()
     # Get required subdirectories from ModuleConfig.xml
     path = os.path.join(dir_source_fomod, "ModuleConfig.xml")
@@ -110,19 +111,19 @@ def build_release(dir_source, dir_target, archive_exe=None,
     # Validate subdirectories
     logger.info("Subdirectories required by the Fomod installer:")
     for sub_dir in sub_dirs:
-        logger.info("   " + sub_dir)
+        logger.info("   {}".format(sub_dir))
         if not os.path.isdir(os.path.join(dir_source, sub_dir)):
-            logger.error("Subdirectory " + sub_dir + " is missing")
+            logger.error("Subdirectory {} is missing".format(sub_dir))
             exit()
         if len(find_plugins(os.path.join(dir_source, sub_dir))) > 1:
-            logger.warning("Subdirectory " + sub_dir +
-                           " contains multiple plugins")
+            logger.warning("Subdirectory {} contains multiple plugins".
+                           format(sub_dir))
     # Validate loose files
     logger.info("Loose files required by the Fomod installer:")
     for file in loose_files:
-        logger.info("   " + file)
+        logger.info("   {}".format(file))
         if not os.path.isfile(os.path.join(dir_source, file)):
-            logger.error("Loose file " + file + " is missing")
+            logger.error("Loose file {} is missing".format(file))
             exit()
     # Get version number and release name from Info.xml
     path = os.path.join(dir_source_fomod, "Info.xml")
@@ -130,21 +131,21 @@ def build_release(dir_source, dir_target, archive_exe=None,
     version = root.find("Version").text
     name_release = root.find("Name").text
     # Validate version stamp of plugins
-    version_stamp = bytes("Version: " + version, "utf8")
+    version_stamp = bytes("Version: {}".format(version), "utf8")
     for sub_dir in sub_dirs:
         for plugin in find_plugins(os.path.join(dir_source, sub_dir)):
             path_plugin = os.path.join(dir_source, sub_dir, plugin)
             with open(path_plugin, "rb") as fh:
                 if version_stamp not in fh.read():
-                    logger.warning(plugin +
-                                   " does not have the correct version stamp")
+                    logger.warning("{} does not have the correct version"
+                                   "stamp".format(plugin))
     for file in loose_files:
         if os.path.splitext(file)[1] in plugin_exts:
             path_plugin = os.path.join(dir_source, file)
             with open(path_plugin, "rb") as fh:
                 if version_stamp not in fh.read():
-                    logger.warning(plugin +
-                                   " does not have the correct version stamp")
+                    logger.warning("{} does not have the correct version"
+                                   "stamp".format(plugin))
     # Build fomod tree in a temporary directory
     with tempfile.TemporaryDirectory() as dir_temp:
         # Copy fomod files to the fomod tree
@@ -158,7 +159,7 @@ def build_release(dir_source, dir_target, archive_exe=None,
                 # Create subdirectory
                 os.mkdir(os.path.join(dir_temp, sub_dir))
                 # Build the bsa
-                bsa = os.path.splitext(plugins[0])[0] + ".bsa"
+                bsa = "{}.bsa".format(os.path.splitext(plugins[0])[0])
                 src = os.path.join(dir_source, sub_dir)
                 dst = os.path.join(dir_temp, sub_dir, bsa)
                 build_bsa(archive_exe, src, dst, archive_flags)
@@ -183,7 +184,7 @@ def build_release(dir_source, dir_target, archive_exe=None,
             os.makedirs(os.path.basename(dst), exist_ok=True)
             shutil.copy2(src, dst)
         # Pack fomod tree into a 7zip archive
-        file_archive = name_release + " " + version + ".7z"
+        file_archive = "{} {}.7z".format(name_release, version)
         # Remove whitespaces from archive name because GitHub doesn't like them
         file_archive = "_".join(file_archive.split())
         src = os.path.join(dir_temp, "*")
@@ -193,8 +194,8 @@ def build_release(dir_source, dir_target, archive_exe=None,
         cmd = ["7z", "a", dst, src]
         sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
         sp.check_returncode()
-        logger.info("Succesfully built archive for " + version + " of " +
-                    name_release)
+        logger.info("Succesfully built archive for {} of {}".
+                    format(version, name_release))
     logger.removeHandler(handler)
 
 
@@ -225,7 +226,7 @@ def build_bsa(archive_exe, dir_source, bsa_target,
                     path_relative = root_relative.joinpath(file)
                     first_dir = path_relative.parts[0]
                     if first_dir.lower() in bsa_include_dirs:
-                        manifest.write(str(path_relative) + "\n")
+                        manifest.write("{}\n".format(path_relative))
         # Exit if manifest is empty because Archive.exe will crash
         if os.path.getsize(path_manifest) == 0:
             return
@@ -233,7 +234,7 @@ def build_bsa(archive_exe, dir_source, bsa_target,
         path_batch = os.path.join(dir_temp, "Batch.txt")
         with open(path_batch, "w") as batch:
             path_log = os.path.basename(bsa_target).replace(".bsa", ".log")
-            batch.write("Log: " + path_log + "\n")
+            batch.write("Log: {}\n".format(path_log))
             batch.write("New Archive\n")
             if archive_flags.check_meshes:
                 batch.write("Check: Meshes\n")
@@ -265,9 +266,10 @@ def build_bsa(archive_exe, dir_source, bsa_target,
                 batch.write("Check: Retain Strings During Startup\n")
             if archive_flags.check_embed_file_name:
                 batch.write("Check: Embed File Names\n")
-            batch.write("Set File Group Root: " + path_root + os.sep + "\n")
-            batch.write("Add File Group: " + path_manifest + "\n")
-            batch.write("Save Archive: " + bsa_target + "\n")
+            batch.write("Set File Group Root: {}{}\n".
+                        format(path_root, os.sep))
+            batch.write("Add File Group: {}\n".format(path_manifest))
+            batch.write("Save Archive: {}\n".format(bsa_target))
         # Build bsa
         cmd = [archive_exe, path_batch]
         sp = subprocess.run(cmd, stdout=subprocess.DEVNULL)
