@@ -17,36 +17,42 @@ def build_release(dir_source, dir_target, archive_exe=None):
             It must contain a Fomod subdirectory with Info.xml and
             ModuleConfig.xml.
             Furthermore it must contain a subdirectory for every folder
-            specified in ModuleConfig.xml. A subdirectory is expected to
-            contain at most one plugin.
+            specified in ModuleConfig.xml. Such a subdirectory is expected
+            to contain at most one plugin.
         dir_target: The target directory for the release archive.
         archive_exe: The executable that creates the bsa.
             If ommited no bsa will be created.
     """
-    # Set up logger
-    name_script = os.path.splitext(os.path.basename(__file__))[0]
-    logfile = name_script + ".log"
-    if os.path.isfile(logfile):
-        os.remove(logfile)
-    logger = logging.getLogger(name_script)
+    logger = logging.getLogger(build_release.__name__)
     logger.setLevel(logging.INFO)
-    handler = logging.FileHandler(logfile)
+    handler = logging.FileHandler(build_release.__name__ + ".log")
     formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
+    logger.info("------------------------------------------------------------")
+    logger.info("Building release")
+    logger.info("Source directory: " + dir_source)
+    logger.info("Target directory: " + dir_target)
+    logger.info("Build bsa: " + str(bool(archive_exe)))
     # Validate arguments
     dir_source_fomod = os.path.join(dir_source, "Fomod")
     if not os.path.isdir(dir_source):
-        logger.error("Source path " + dir_source + " is not valid")
+        logger.error("Source directory does not exist")
         exit()
     if not os.path.isdir(dir_target):
-        logger.error("Destination path " + dir_target + " is not valid")
+        logger.error("Target directory does not exist")
         exit()
     if not os.path.isfile(os.path.join(dir_source_fomod, "Info.xml")):
         logger.error("Info.xml is missing in " + dir_source_fomod)
         exit()
     if not os.path.isfile(os.path.join(dir_source_fomod, "ModuleConfig.xml")):
         logger.error("ModuleConfig.xml is missing in " + dir_source_fomod)
+        exit()
+    if archive_exe and not os.path.isfile(archive_exe):
+        logger.error("Archive.exe path " + archive_exe + " does not exist")
+        exit()
+    if archive_exe and os.path.basename(archive_exe) != "Archive.exe":
+        logger.error(archive_exe + " does not point to Archive.exe")
         exit()
     # Get required subdirectories from ModuleConfig.xml
     path = os.path.join(dir_source_fomod, "ModuleConfig.xml")
@@ -64,14 +70,14 @@ def build_release(dir_source, dir_target, archive_exe=None):
     # Validate subdirectories
     logger.info("Subdirectories required by the Fomod installer:")
     for sub_dir in sub_dirs:
-        logger.info(sub_dir)
+        logger.info("   " + sub_dir)
         if not os.path.isdir(os.path.join(dir_source, sub_dir)):
             logger.error("Subdirectory " + sub_dir + " is missing")
             exit()
         if len(find_plugins(os.path.join(dir_source, sub_dir))) > 1:
             logger.warning("Subdirectory " + sub_dir +
                            " contains multiple plugins")
-    # Get version number and release name from info.xml
+    # Get version number and release name from Info.xml
     path = os.path.join(dir_source_fomod, "Info.xml")
     root = xml.etree.ElementTree.parse(path).getroot()
     version = root.find("Version").text
@@ -83,8 +89,8 @@ def build_release(dir_source, dir_target, archive_exe=None):
             path_plugin = os.path.join(dir_source, sub_dir, plugin)
             with open(path_plugin, "rb") as fh:
                 if version_stamp not in fh.read():
-                    logger.warning(os.path.basename(path_plugin) +
-                                   " doesn't have the correct version stamp")
+                    logger.warning(plugin +
+                                   " does not have the correct version stamp")
     # Build fomod tree in a temporary directory
     with tempfile.TemporaryDirectory() as dir_temp:
         # Copy fomod files to the fomod tree
