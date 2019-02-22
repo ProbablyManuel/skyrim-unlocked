@@ -140,6 +140,7 @@ def build_release(dir_source, dir_target, archive_exe=None):
         sp.check_returncode()
         logger.info("Succesfully built archive for " + version + " of " +
                     name_release)
+    logger.removeHandler(handler)
 
 
 def build_bsa(archive_exe, dir_source, bsa_target):
