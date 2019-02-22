@@ -1,5 +1,6 @@
 import logging
 import os
+import pathlib
 import shutil
 import subprocess
 import tempfile
@@ -8,8 +9,9 @@ import xml.etree.ElementTree
 """Valid extensions of a plugin."""
 plugin_exts = [".esl", ".esp", ".esm"]
 
-"""Valid extensions of files that can be included in a bsa."""
-bsa_include_exts = [".pex", ".psc", ".nif", ".dds"]
+"""All files in these directories will be included in a bsa."""
+bsa_include_dirs = ["interface", "meshes", "music", "textures", "scripts",
+                    "seq", "shadersfx", "sound", "strings"]
 
 
 def build_release(dir_source, dir_target, archive_exe=None,
@@ -160,7 +162,7 @@ def build_bsa(archive_exe, dir_source, bsa_target, archive_flags):
         archive_flags: Check the corresponding options in Archive.exe
     """
     # Some genius at Bethesda had the idea to assume that the first occurence
-    # of "Data" in a path must be Skyrim's Data folder. Thus the temporary
+    # of "Data" in a path must be Skyrim's Data directory. Thus the temporary
     # directory must not be created at the default location AppData\Temp
     with tempfile.TemporaryDirectory(dir="C:\\Windows\\Temp") as dir_temp:
         # Another genius' idea: The root of the loose files must be Data
@@ -170,11 +172,12 @@ def build_bsa(archive_exe, dir_source, bsa_target, archive_flags):
         path_manifest = os.path.join(dir_temp, "Manifest.txt")
         with open(path_manifest, "w") as manifest:
             for root, subdirs, files in os.walk(dir_source):
-                short_root = root[len(dir_source):]
+                root_relative = pathlib.PurePath(root).relative_to(dir_source)
                 for file in files:
-                    extension = os.path.splitext(file)[1]
-                    if extension in bsa_include_exts:
-                        manifest.write(os.path.join(short_root, file) + "\n")
+                    path_relative = root_relative.joinpath(file)
+                    first_dir = path_relative.parts[0]
+                    if first_dir.lower() in bsa_include_dirs:
+                        manifest.write(str(path_relative) + "\n")
         # Create batch file
         path_batch = os.path.join(dir_temp, "Batch.txt")
         with open(path_batch, "w") as batch:
@@ -211,7 +214,7 @@ def build_bsa(archive_exe, dir_source, bsa_target, archive_flags):
                 batch.write("Check: Retain Strings During Startup\n")
             if archive_flags.check_embed_file_name:
                 batch.write("Check: Embed File Names\n")
-            batch.write("Set File Group Root: " + path_root + "\n")
+            batch.write("Set File Group Root: " + path_root + os.sep + "\n")
             batch.write("Add File Group: " + path_manifest + "\n")
             batch.write("Save Archive: " + bsa_target + "\n")
         # Build bsa
