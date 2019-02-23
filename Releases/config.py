@@ -1,19 +1,27 @@
 """Global variables for Skyrim Unlocked build system"""
 import os
 
-dir_repo = "C:\\Users\\user\\Documents\\GitHub\\skyrim-unlocked"
+DIR_REPO = "C:\\Users\\user\\Documents\\GitHub\\skyrim-unlocked"
 """Directory where the git repository for Skyrim Unlocked is stored."""
 
-dir_le = dir_repo
+DIR_REPO_LE = DIR_REPO
 """Directory where all mod files for Legendary Edition are stored."""
 
-dir_se = os.path.join(dir_repo, "SSE")
+DIR_REPO_SE = os.path.join(DIR_REPO, "SSE")
 """Directory where all mod files for Special Edition are stored."""
 
-archive_exe_le = ("C:\\Program Files (x86)\\Steam\\steamapps\\common\\"
-                  "Skyrim\\Archive.exe")
-"""Archive.exe for Legendary Edition"""
+DIR_TEMP_ALT = "C:\\Windows\\Temp"
+"""Directory where temporary files can be stored.
+The path must not contain a directory that ends with "Data"."""
 
-archive_exe_se = ("C:\\Program Files (x86)\\Steam\\steamapps\\common\\"
-                  "SkyrimSpecialEdition\\Tools\\Archive\\Archive.exe")
-"""Archive.exe for Special Edition"""
+DIR_SKYRIM_LE = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Skyrim"
+"""Directory where Skyrim Legendary Edition is installed."""
+
+DIR_SKYRIM_SE = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SkyrimSpecialEdition"
+"""Directory where Skyrim Special Edition is installed."""
+
+ARCH_EXE_LE = os.path.join(DIR_SKYRIM_LE, "Archive.exe")
+"""Path to Archive.exe for Legendary Edition"""
+
+ARCH_EXE_SE = os.path.join(DIR_SKYRIM_SE, "Tools\\Archive\\Archive.exe")
+"""Path to Archive.exe for Special Edition"""
