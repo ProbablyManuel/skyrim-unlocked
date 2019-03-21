@@ -1,34 +1,31 @@
-Scriptname MG07WaveTriggerScript extends ObjectReference  
+ScriptName MG07WaveTriggerScript Extends ObjectReference  
 
-Message property MG07TestWaveMessage auto
-ObjectReference property TauntMarker auto  
-Quest property MG07 auto
+Message Property MG07TestWaveMessage Auto
 
-int DoOnce
-float PlayerMagickaVal
+ObjectReference Property TauntMarker Auto
 
+Quest Property MG07 Auto
 
 
-Event OnTriggerEnter(ObjectReference AkActionRef)
+Event OnTriggerEnter(ObjectReference akActionRef)
+	Actor Player = Game.GetPlayer()
+	If (akActionRef == Player && MG07.IsRunning())
+		GoToState("Done")
+		GetLinkedRef().PlayAnimation("PlayAnim02")
+		TauntMarker.MoveTo(Player)
+		Player.DamageActorValue("Magicka", Player.GetActorValue("Magicka"))
+		(MG07 as MG07QuestScript).WaveTrigger += 1
+		Utility.Wait(1.5)
+		GetLinkedRef().PlayAnimation("PlayAnim01")
+		Utility.Wait(0.75)
+		GetLinkedRef().Disable()
+		Disable()
+	EndIf
+EndEvent
 
-	if (AkActionRef == Game.GetPlayer() && MG07.IsStageDone(20))	;We do nothing if the player isn't here for MG07.
 
-		if DoOnce == 0
-			getLinkedRef().PlayAnimation("PlayAnim02")
-			TauntMarker.MoveTo(Game.GetPlayer())
-			PlayerMagickaVal = Game.GetPlayer().GetAV("Magicka")
-			PlayerMagickaVal = 0 - PlayerMagickaVal
-			Game.GetPlayer().DamageAV("Magicka", PlayerMagickaVal)
-			DoOnce=1
-			(MG07 as MG07QuestScript).WaveTrigger +=  1
-
-
-			utility.wait(1.5)
-			getLinkedRef().PlayAnimation("PlayAnim01")
-			utility.wait(0.75)
-			getLinkedRef().disable()
-			Disable()
-		endif
-	endif
-
-EndEvent 
+State Done
+	Event OnTriggerEnter(ObjectReference akActionRef)
+		; Do nothing
+	EndEvent
+EndState

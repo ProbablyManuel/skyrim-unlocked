@@ -56,11 +56,11 @@ Function LockSaarthal()
 EndFunction
 
 Function UnlockLabyrinthian()
-	NorLabyrinthianActivatedDoor.Enable()
+	NorLabyrinthianActivatedDoor.Disable()
 EndFunction
 
 Function LockLabyrinthian()
-	NorLabyrinthianActivatedDoor.Disable()
+	NorLabyrinthianActivatedDoor.Enable()
 EndFunction
 
 Function UnlockKatariah()
