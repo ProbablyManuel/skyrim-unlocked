@@ -18,6 +18,13 @@ ObjectReference Property CollegeArchMageArcanaeumDoor Auto
 ObjectReference Property CollegeArchMageElementsDoor Auto
 ObjectReference Property CollegeArchMageRoofDoor1 Auto
 ObjectReference Property CollegeArchMageRoofDoor2 Auto
+ObjectReference Property BreezehomeFrontDoor Auto
+ObjectReference Property HoneysideFrontDoor Auto
+ObjectReference Property HoneysideBackDoor Auto
+ObjectReference Property ProudspireManorFrontDoor Auto
+ObjectReference Property ProudspireManorBackDoor Auto
+ObjectReference Property ProudspireManorStreetDoor Auto
+ObjectReference Property VlindrelHallFrontDoor Auto
 
 Quest Property TT_Quest_Skuldafn Auto
 
@@ -118,4 +125,42 @@ Function LockArchMageQuarters()
 	CollegeArchMageRoofDoor2.Lock()
 	CollegeArchMageArcanaeumDoor.Lock()
 	CollegeArchMageElementsDoor.Lock()
+EndFunction
+
+Function UnlockBreezehome()
+	BreezehomeFrontDoor.SetLockLevel(75)
+EndFunction
+
+Function LockBreezehome()
+	BreezehomeFrontDoor.SetLockLevel(255)
+EndFunction
+
+Function UnlockHoneyside()
+	HoneysideFrontDoor.SetLockLevel(75)
+	HoneysideBackDoor.SetLockLevel(75)
+EndFunction
+
+Function LockHoneyside()
+	HoneysideFrontDoor.SetLockLevel(255)
+	HoneysideBackDoor.SetLockLevel(255)
+EndFunction
+
+Function UnlockProudspire()
+	ProudspireManorFrontDoor.SetLockLevel(75)
+	ProudspireManorBackDoor.SetLockLevel(75)
+	ProudspireManorStreetDoor.SetLockLevel(75)
+EndFunction
+
+Function LockProudspire()
+	ProudspireManorFrontDoor.SetLockLevel(255)
+	ProudspireManorBackDoor.SetLockLevel(255)
+	ProudspireManorStreetDoor.SetLockLevel(255)
+EndFunction
+
+Function UnlockVlindrelHall()
+	VlindrelHallFrontDoor.SetLockLevel(75)
+EndFunction
+
+Function LockVlindrelHall()
+	VlindrelHallFrontDoor.SetLockLevel(255)
 EndFunction
