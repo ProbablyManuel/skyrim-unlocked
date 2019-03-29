@@ -3,6 +3,7 @@
 
 TT_UnlockerScript Property Unlocker Auto
 
+Quest Property C05 Auto
 Quest Property CW02A Auto
 Quest Property CW02B Auto
 Quest Property DB10 Auto
@@ -22,6 +23,7 @@ Bool ToggleKorvanjund = False
 Bool ToggleSkuldafn = False
 Bool ToggleSkuldafnHint = False
 Bool ToggleSkyHavenTemple = False
+Bool ToggleYsgramorsTomb = False
 
 Int OIDIrkngthand
 Int OIDSaarthal
@@ -32,6 +34,7 @@ Int OIDSkuldafn
 Int OIDSkuldafnHint
 Int OIDKorvanjund
 Int OIDSkyHavenTemple
+Int OIDYsgramorsTomb
 
 
 Event OnPageReset(String Page)
@@ -62,6 +65,13 @@ Event OnPageReset(String Page)
 		OIDKatariah = AddToggleOption("$Unlock The Katariah", ToggleKatariah, OPTION_FLAG_DISABLED)
 	Else
 		OIDKatariah = AddToggleOption("$Unlock The Katariah", ToggleKatariah)
+	EndIf
+	AddEmptyOption()
+	AddHeaderOption("$Ysgramor's Tomb")
+	If (C05.IsCompleted())
+		OIDYsgramorsTomb = AddToggleOption("$Unlock Ysgramor's Tomb", ToggleYsgramorsTomb, OPTION_FLAG_DISABLED)
+	Else
+		OIDYsgramorsTomb = AddToggleOption("$Unlock Ysgramor's Tomb", ToggleYsgramorsTomb)
 	EndIf
 	SetCursorPosition(1)
 	AddHeaderOption("$Thalmor Embassy")
@@ -199,6 +209,19 @@ Event OnOptionSelect(Int Option)
 		Else
 			Unlocker.LockKorvanjund()
 		EndIf
+	ElseIf (Option == OIDYsgramorsTomb)
+		ToggleYsgramorsTomb = !ToggleYsgramorsTomb
+		SetToggleOptionValue(OIDYsgramorsTomb, ToggleYsgramorsTomb)
+		If (ToggleYsgramorsTomb)
+			If (ShowMessage("$TT_ConfirmationCompanions"))
+				Unlocker.UnlockYsgramorsTomb()
+			Else
+				ToggleYsgramorsTomb = !ToggleYsgramorsTomb
+				SetToggleOptionValue(OIDYsgramorsTomb, ToggleYsgramorsTomb)
+			EndIf
+		Else
+			Unlocker.LockYsgramorsTomb()
+		EndIf
 	EndIf
 EndEvent
 
@@ -220,5 +243,7 @@ Event OnOptionHighlight(Int Option)
 		SetInfoText("$TT_InfoKorvanjund")
 	ElseIf (Option == OIDSkyHavenTemple)
 		SetInfoText("$TT_InfoSkyHavenTemple")
+	ElseIf (Option == OIDYsgramorsTomb)
+		SetInfoText("$TT_InfoYsgramorsTomb")
 	EndIf
 EndEvent

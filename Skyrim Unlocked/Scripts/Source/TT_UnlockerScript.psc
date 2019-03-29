@@ -4,6 +4,8 @@ ScriptName TT_UnlockerScript Extends Quest
 Actor Property TitusMedeIIRef Auto
 Actor Property JyrikGauldursonRef Auto
 
+Armor Property ArmorShieldOfYsgramor Auto
+
 GlobalVariable Property TT_GV_ThalmorEmbassy Auto
 
 ObjectReference Property ArmorBoneCrownRef Auto
@@ -25,6 +27,8 @@ ObjectReference Property ProudspireManorFrontDoor Auto
 ObjectReference Property ProudspireManorBackDoor Auto
 ObjectReference Property ProudspireManorStreetDoor Auto
 ObjectReference Property VlindrelHallFrontDoor Auto
+ObjectReference Property YsgramorsTombBossChest Auto
+ObjectReference Property YsgramorsTombDoor Auto
 
 Quest Property TT_Quest_Skuldafn Auto
 
@@ -163,4 +167,14 @@ EndFunction
 
 Function LockVlindrelHall()
 	VlindrelHallFrontDoor.SetLockLevel(255)
+EndFunction
+
+Function UnlockYsgramorsTomb()
+	YsgramorsTombDoor.Disable()
+	YsgramorsTombBossChest.AddItem(ArmorShieldOfYsgramor)
+EndFunction
+
+Function LockYsgramorsTomb()
+	YsgramorsTombDoor.Enable()
+	YsgramorsTombBossChest.RemoveItem(ArmorShieldOfYsgramor)
 EndFunction

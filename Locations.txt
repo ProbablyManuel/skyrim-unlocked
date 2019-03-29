@@ -21,7 +21,7 @@ Dustmans Cairn:
 The whole dungeon is unlocked.
 
 Ysgramors Tomb:
-Removed door that blocked exit to the hill. Wuuthrad is still required to access the rest of the tomb.
+Removed door that blocked exit to the hill. The rest of the tomb can be unlocked in the MCM.
 
 
 Saarthal:
