@@ -41,6 +41,7 @@ def build_release(dir_src: os.PathLike,
                   arch_exe: os.PathLike = None,
                   arch_flags: ArchiveFlags = ArchiveFlags(),
                   bsa_exclude: list = list(),
+                  trim_fomod: bool = False,
                   warn_modgroups: bool = True,
                   warn_readmes: bool = True,
                   warn_version: bool = True,
@@ -66,6 +67,9 @@ def build_release(dir_src: os.PathLike,
         arch_flags: Check the corresponding options in Archive.exe.
             If ommited, no flags are set.
         bsa_exclude: No bsa is created for these subdirectories.
+        trim_fomod: If True the release archive contains no fomod installer if
+            ModuleConfig.xml specifies a single directory and no loose files.
+            Defaults to False.
         warn_modgroups: If True warn of plugins without a modgroups file.
             Defaults to True.
         warn_readmes: If True warn of plugins with a readme. A readme is
@@ -199,7 +203,11 @@ def build_release(dir_src: os.PathLike,
         dst = os.path.join(dir_dst, file_archive)
         if os.path.isfile(dst):
             os.remove(dst)
-        shutil.make_archive(dst, "zip", dir_temp)
+        if trim_fomod and len(sub_dirs) == 1 and len(loose_files) == 0:
+            src = os.path.join(dir_temp, sub_dirs[0])
+        else:
+            src = dir_temp
+        shutil.make_archive(dst, "zip", src)
         logger.info("Succesfully built release archive for {} of {}".
                     format(version, name_release))
 
@@ -403,6 +411,11 @@ def parse_fomod(dir_fomod: os.PathLike) -> (str, str, list, list):
     root = xml.etree.ElementTree.parse(path).getroot()
     sub_dirs = list()
     loose_files = list()
+    for requiredInstallFiles in root.iterfind("requiredInstallFiles"):
+        for folder in requiredInstallFiles.iterfind("folder"):
+            sub_dirs.append(folder.get("source"))
+        for file in requiredInstallFiles.iterfind("file"):
+            loose_files.append(file.get("source"))
     for installSteps in root.iterfind("installSteps"):
         for installStep in installSteps.iterfind("installStep"):
             for fileGroups in installStep.iterfind("optionalFileGroups"):
