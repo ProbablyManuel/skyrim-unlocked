@@ -2,59 +2,9 @@
 ;NEXT FRAGMENT INDEX 37
 Scriptname QF_DA08_0004A37B Extends Quest Hidden
 
-;BEGIN ALIAS PROPERTY KarindaEssential
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_KarindaEssential Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Farengar
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Farengar Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Karinda
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Karinda Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY WhisperingDoor
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_WhisperingDoor Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY EbonyBladeQuestItem
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_EbonyBladeQuestItem Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY MephalaInYourHead
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_MephalaInYourHead Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Frothar
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Frothar Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY WhisperingDoorTA
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_WhisperingDoorTA Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY Balgruuf
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Balgruuf Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY EbonyBlade
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_EbonyBlade Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Nelkir
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Nelkir Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY BalgruufEssential
@@ -62,14 +12,44 @@ ReferenceAlias Property Alias_Nelkir Auto
 ReferenceAlias Property Alias_BalgruufEssential Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY WhisperingDoorName
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_WhisperingDoorName Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY Dagny
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Dagny Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY EbonyBlade
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_EbonyBlade Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY EbonyBladeQuestItem
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_EbonyBladeQuestItem Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Farengar
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Farengar Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Frothar
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Frothar Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Karinda
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Karinda Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY KarindaEssential
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_KarindaEssential Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY MephalaInYourHead
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_MephalaInYourHead Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY MysteriousDoorName
@@ -77,10 +57,34 @@ ReferenceAlias Property Alias_Dagny Auto
 ReferenceAlias Property Alias_MysteriousDoorName Auto
 ;END ALIAS PROPERTY
 
-;BEGIN FRAGMENT Fragment_30
-Function Fragment_30()
+;BEGIN ALIAS PROPERTY Nelkir
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Nelkir Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY WhisperingDoor
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_WhisperingDoor Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY WhisperingDoorName
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_WhisperingDoorName Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY WhisperingDoorTA
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_WhisperingDoorTA Auto
+;END ALIAS PROPERTY
+
+;BEGIN FRAGMENT Fragment_14
+Function Fragment_14()
 ;BEGIN CODE
-SetStage(60)
+SetObjectiveDisplayed(10)
+
+if (DA08RumorPointer.GetStage() == 10)
+	DA08RumorPointer.SetStage(20)
+endif
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -105,26 +109,24 @@ SetObjectiveDisplayed(20)
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_22
-Function Fragment_22()
+;BEGIN FRAGMENT Fragment_19
+Function Fragment_19()
 ;BEGIN CODE
-SetObjectiveCompleted(50)
-AchievementsQuest.IncDaedricQuests()
-AchievementsQuest.IncDaedricArtifacts()
-BladeTracker.Start()
-Alias_EbonyBladeQuestItem.Clear()
+SetObjectiveCompleted(25)
+SetObjectiveDisplayed(30)
+
+Alias_Balgruuf.GetRef().AddItem(WhisperingDoorKey, 1)
+Alias_Farengar.GetRef().AddItem(WhisperingDoorKey, 1)
 ;END CODE
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_33
-Function Fragment_33()
+;BEGIN FRAGMENT Fragment_20
+Function Fragment_20()
 ;BEGIN CODE
-SetObjectiveCompleted(20)
-SetObjectiveDisplayed(25)
-
-(Alias_WhisperingDoor as DA08WhisperingDoorScript).UndoRedirect()
-(Alias_WhisperingDoor as DA08WhisperingDoorScript).RenameToMysterious()
+SetObjectiveCompleted(25)
+SetObjectiveCompleted(30)
+SetObjectiveDisplayed(40)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -152,22 +154,22 @@ SetObjectiveDisplayed(50)
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_19
-Function Fragment_19()
+;BEGIN FRAGMENT Fragment_22
+Function Fragment_22()
 ;BEGIN CODE
-SetObjectiveCompleted(25)
-SetObjectiveDisplayed(30)
-
-Alias_Balgruuf.GetRef().AddItem(WhisperingDoorKey, 1)
-Alias_Farengar.GetRef().AddItem(WhisperingDoorKey, 1)
+SetObjectiveCompleted(50)
+AchievementsQuest.IncDaedricQuests()
+AchievementsQuest.IncDaedricArtifacts()
+BladeTracker.Start()
+Alias_EbonyBladeQuestItem.Clear()
 ;END CODE
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_36
-Function Fragment_36()
+;BEGIN FRAGMENT Fragment_30
+Function Fragment_30()
 ;BEGIN CODE
-Stop()
+SetStage(60)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -190,14 +192,14 @@ Game.GetPlayer().MoveTo(StartMarker)
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_14
-Function Fragment_14()
+;BEGIN FRAGMENT Fragment_33
+Function Fragment_33()
 ;BEGIN CODE
-SetObjectiveDisplayed(10)
+SetObjectiveCompleted(20)
+SetObjectiveDisplayed(25)
 
-if (DA08RumorPointer.GetStage() == 10)
-	DA08RumorPointer.SetStage(20)
-endif
+(Alias_WhisperingDoor as DA08WhisperingDoorScript).UndoRedirect()
+(Alias_WhisperingDoor as DA08WhisperingDoorScript).RenameToMysterious()
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -213,12 +215,10 @@ Alias_EbonyBladeQuestItem.Clear()
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_20
-Function Fragment_20()
+;BEGIN FRAGMENT Fragment_36
+Function Fragment_36()
 ;BEGIN CODE
-SetObjectiveCompleted(25)
-SetObjectiveCompleted(30)
-SetObjectiveDisplayed(40)
+Stop()
 ;END CODE
 EndFunction
 ;END FRAGMENT

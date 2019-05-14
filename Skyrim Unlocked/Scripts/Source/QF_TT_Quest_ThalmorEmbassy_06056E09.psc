@@ -2,24 +2,9 @@
 ;NEXT FRAGMENT INDEX 7
 Scriptname QF_TT_Quest_ThalmorEmbassy_06056E09 Extends Quest Hidden
 
-;BEGIN ALIAS PROPERTY InteriorGuard
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_InteriorGuard Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY Brelas
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Brelas Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ThalmorEmbassyLocation
-;ALIAS PROPERTY TYPE LocationAlias
-LocationAlias Property Alias_ThalmorEmbassyLocation Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardNight3
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardNight3 Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY CourtyardGuard1
@@ -27,49 +12,9 @@ ReferenceAlias Property Alias_ExteriorGuardNight3 Auto
 ReferenceAlias Property Alias_CourtyardGuard1 Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY Malborn
+;BEGIN ALIAS PROPERTY CourtyardGuard2
 ;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Malborn Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardNight2
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardNight2 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY SolarGuard
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_SolarGuard Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardDay3
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardDay3 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY PartyGuard1
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_PartyGuard1 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardNight1
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardNight1 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardDay4
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardDay4 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY ExteriorGuardNight4
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardNight4 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY chattyGuard1
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_chattyGuard1 Auto
+ReferenceAlias Property Alias_CourtyardGuard2 Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY Elenwen
@@ -77,29 +22,44 @@ ReferenceAlias Property Alias_chattyGuard1 Auto
 ReferenceAlias Property Alias_Elenwen Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY ExteriorGuardDay2
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_ExteriorGuardDay2 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY CourtyardGuard2
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_CourtyardGuard2 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY PartyGuard2
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_PartyGuard2 Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY ExteriorGuardDay1
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_ExteriorGuardDay1 Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY chattyGuard2
+;BEGIN ALIAS PROPERTY ExteriorGuardDay2
 ;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_chattyGuard2 Auto
+ReferenceAlias Property Alias_ExteriorGuardDay2 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardDay3
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardDay3 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardDay4
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardDay4 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardNight1
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardNight1 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardNight2
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardNight2 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardNight3
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardNight3 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ExteriorGuardNight4
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_ExteriorGuardNight4 Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY Gissur
@@ -107,9 +67,29 @@ ReferenceAlias Property Alias_chattyGuard2 Auto
 ReferenceAlias Property Alias_Gissur Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY TortureChamberGuard
+;BEGIN ALIAS PROPERTY InsideSolarGuard
 ;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_TortureChamberGuard Auto
+ReferenceAlias Property Alias_InsideSolarGuard Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY InteriorGuard
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_InteriorGuard Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Malborn
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Malborn Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY PartyGuard1
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_PartyGuard1 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY PartyGuard2
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_PartyGuard2 Auto
 ;END ALIAS PROPERTY
 
 ;BEGIN ALIAS PROPERTY Razelan
@@ -117,20 +97,50 @@ ReferenceAlias Property Alias_TortureChamberGuard Auto
 ReferenceAlias Property Alias_Razelan Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY Tsavani
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Tsavani Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY Rulindil
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_Rulindil Auto
 ;END ALIAS PROPERTY
 
-;BEGIN ALIAS PROPERTY InsideSolarGuard
+;BEGIN ALIAS PROPERTY SolarGuard
 ;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_InsideSolarGuard Auto
+ReferenceAlias Property Alias_SolarGuard Auto
 ;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY ThalmorEmbassyLocation
+;ALIAS PROPERTY TYPE LocationAlias
+LocationAlias Property Alias_ThalmorEmbassyLocation Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY TortureChamberGuard
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_TortureChamberGuard Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Tsavani
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Tsavani Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY chattyGuard1
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_chattyGuard1 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY chattyGuard2
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_chattyGuard2 Auto
+;END ALIAS PROPERTY
+
+;BEGIN FRAGMENT Fragment_0
+Function Fragment_0()
+;BEGIN CODE
+; The player has entered the ground of the Thalmor Embassy
+
+ThalmorEmbassyFaction.SetPlayerEnemy(True)
+;END CODE
+EndFunction
+;END FRAGMENT
 
 ;BEGIN FRAGMENT Fragment_1
 Function Fragment_1()
@@ -139,6 +149,33 @@ Function Fragment_1()
 
 ; Enable enemies after the party room and in the courtyard
 MQ201EnableCombatGuardsMarker.Enable()
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_3
+Function Fragment_3()
+;BEGIN AUTOCAST TYPE TT_Quest_ThalmorEmbassy_Script
+Quest __temp = self as Quest
+TT_Quest_ThalmorEmbassy_Script kmyQuest = __temp as TT_Quest_ThalmorEmbassy_Script
+;END AUTOCAST
+;BEGIN CODE
+; The player has left the Thalmor Embassy location
+
+ThalmorEmbassyFaction.SetPlayerEnemy(False)
+If (kmyQuest.ElenwenDisabled)
+	Alias_Elenwen.TryToEnable()
+EndIf
+
+; Remove keys from torture chamber guard to prevent duplicates later
+; New keys will be generated when the player reenters the Thalmor Embassy
+Actor TortureChamberGuardRef = Alias_TortureChamberGuard.GetActorReference()
+If (TortureChamberGuardRef)
+	Int KeyCount = TortureChamberGuardRef.GetItemCount(MQ201InterrogationExitKey)
+	If (KeyCount > 0)
+		TortureChamberGuardRef.RemoveItem(MQ201InterrogationExitKey, KeyCount)	
+	EndIf
+EndIf
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -207,43 +244,6 @@ If (PartyGuard2Ref)
 	PartyGuard2Ref.SetActorValue("Aggression", 1)
 	PartyGuard2Ref.Enable()
 EndIf
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_3
-Function Fragment_3()
-;BEGIN AUTOCAST TYPE TT_Quest_ThalmorEmbassy_Script
-Quest __temp = self as Quest
-TT_Quest_ThalmorEmbassy_Script kmyQuest = __temp as TT_Quest_ThalmorEmbassy_Script
-;END AUTOCAST
-;BEGIN CODE
-; The player has left the Thalmor Embassy location
-
-ThalmorEmbassyFaction.SetPlayerEnemy(False)
-If (kmyQuest.ElenwenDisabled)
-	Alias_Elenwen.TryToEnable()
-EndIf
-
-; Remove keys from torture chamber guard to prevent duplicates later
-; New keys will be generated when the player reenters the Thalmor Embassy
-Actor TortureChamberGuardRef = Alias_TortureChamberGuard.GetActorReference()
-If (TortureChamberGuardRef)
-	Int KeyCount = TortureChamberGuardRef.GetItemCount(MQ201InterrogationExitKey)
-	If (KeyCount > 0)
-		TortureChamberGuardRef.RemoveItem(MQ201InterrogationExitKey, KeyCount)	
-	EndIf
-EndIf
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_0
-Function Fragment_0()
-;BEGIN CODE
-; The player has entered the ground of the Thalmor Embassy
-
-ThalmorEmbassyFaction.SetPlayerEnemy(True)
 ;END CODE
 EndFunction
 ;END FRAGMENT

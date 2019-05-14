@@ -2,21 +2,6 @@
 ;NEXT FRAGMENT INDEX 9
 Scriptname QF_dunLabyrinthian_00091F1A Extends Quest Hidden
 
-;BEGIN ALIAS PROPERTY Thrall01
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Thrall01 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY Thrall02
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_Thrall02 Auto
-;END ALIAS PROPERTY
-
-;BEGIN ALIAS PROPERTY skeletalDragon
-;ALIAS PROPERTY TYPE ReferenceAlias
-ReferenceAlias Property Alias_skeletalDragon Auto
-;END ALIAS PROPERTY
-
 ;BEGIN ALIAS PROPERTY MG07Staff
 ;ALIAS PROPERTY TYPE ReferenceAlias
 ReferenceAlias Property Alias_MG07Staff Auto
@@ -32,13 +17,27 @@ ReferenceAlias Property Alias_MagicBarrier Auto
 ReferenceAlias Property Alias_Morokei Auto
 ;END ALIAS PROPERTY
 
-;BEGIN FRAGMENT Fragment_8
-Function Fragment_8()
+;BEGIN ALIAS PROPERTY Thrall01
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Thrall01 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY Thrall02
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_Thrall02 Auto
+;END ALIAS PROPERTY
+
+;BEGIN ALIAS PROPERTY skeletalDragon
+;ALIAS PROPERTY TYPE ReferenceAlias
+ReferenceAlias Property Alias_skeletalDragon Auto
+;END ALIAS PROPERTY
+
+;BEGIN FRAGMENT Fragment_0
+Function Fragment_0()
 ;BEGIN CODE
-; stage set when Thrall01 gets interrupted
-if getStageDone(91) == TRUE
-setStage(95)
-endif
+; stage to set when player enters dragon chamber
+alias_SkeletalDragon.getActorReference().startCombat(game.getPlayer())
+;skeletalDragon.setAV("aggression", 3)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -55,6 +54,18 @@ while i < t
 	(Skelly as actor).startCombat(game.getPlayer())
 	i += 1
 endWhile
+;END CODE
+EndFunction
+;END FRAGMENT
+
+;BEGIN FRAGMENT Fragment_5
+Function Fragment_5()
+;BEGIN CODE
+; This stage is set when the player enters the hall of Stories before the boss Chamber
+; various handling bits for Morokei
+Alias_Morokei.getActorReference().setGhost(TRUE)
+Alias_Morokei.getActorReference().addSpell(ghostAbility)
+Alias_Morokei.getActorReference().setNoFavorAllowed(TRUE)
 ;END CODE
 EndFunction
 ;END FRAGMENT
@@ -93,24 +104,13 @@ endif
 EndFunction
 ;END FRAGMENT
 
-;BEGIN FRAGMENT Fragment_0
-Function Fragment_0()
+;BEGIN FRAGMENT Fragment_8
+Function Fragment_8()
 ;BEGIN CODE
-; stage to set when player enters dragon chamber
-alias_SkeletalDragon.getActorReference().startCombat(game.getPlayer())
-;skeletalDragon.setAV("aggression", 3)
-;END CODE
-EndFunction
-;END FRAGMENT
-
-;BEGIN FRAGMENT Fragment_5
-Function Fragment_5()
-;BEGIN CODE
-; This stage is set when the player enters the hall of Stories before the boss Chamber
-; various handling bits for Morokei
-Alias_Morokei.getActorReference().setGhost(TRUE)
-Alias_Morokei.getActorReference().addSpell(ghostAbility)
-Alias_Morokei.getActorReference().setNoFavorAllowed(TRUE)
+; stage set when Thrall01 gets interrupted
+if getStageDone(91) == TRUE
+setStage(95)
+endif
 ;END CODE
 EndFunction
 ;END FRAGMENT
