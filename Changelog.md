@@ -1,6 +1,7 @@
 - Built-in compatibility for Immersive College of Winterhold, Live Another Life and mods that edit the vanilla player homes. Compatibility patches are no longer necessary.
 - Thalmor Embassy can be unlocked in the MCM.
-- SKyhaven Temple can be unlocked in the MCM.
+- Skyhaven Temple can be unlocked in the MCM.
+- Ysgramor's Tomb can be unlocked in the MCM.
 - High Hrothgar is accessible at any time.
 - The Whispering Door can be unlocked at any time which starts the associated quest.
 - MCM supports localization.

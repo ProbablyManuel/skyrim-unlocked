@@ -17,11 +17,11 @@ Skuldafn:
 You can use the MCM to start a quest that will bring you to Skuldafn.
 
 
-Dustmans Cairn:
+Dustman's Cairn:
 The whole dungeon is unlocked.
 
-Ysgramors Tomb:
-Removed door that blocked exit to the hill. The rest of the tomb can be unlocked in the MCM.
+Ysgramor's Tomb:
+Door that blocks the exit to the hill is removed. The rest of the tomb can be unlocked in the MCM.
 
 
 Saarthal:
@@ -31,13 +31,13 @@ Arch-Mage's Quarters:
 Doors can be picked.
 
 Fellglow Keep:
-The whole dungeon is unblocked.
+The whole dungeon is unlocked.
 
 Mzulft:
-The whole dungeon is enabled by default.
+The whole dungeon is unlocked.
 
 Labyrinthian:
-The whole dungeon can be enabled in the MCM.
+The whole dungeon can be unlocked in the MCM.
 
 
 Goldenglow Estate:
