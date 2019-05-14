@@ -66,10 +66,10 @@ The dungeon is enabled by default.
 
 
 Hag's End:
-The whole dungeon is enabled by default.
+The secret room with the Ancient Shrouded Armor can be accessed without joining the Dark Brotherhood.
 
 The Katariah:
-The Katariah can be unlocked in the MCM.
+The ship can be spawned in the MCM.
 
 
 Ilinaltas Deep
