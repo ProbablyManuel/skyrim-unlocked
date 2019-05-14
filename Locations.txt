@@ -65,9 +65,6 @@ Twilight Sepulcher:
 The dungeon is enabled by default.
 
 
-Abandoned Shack:
-Replaced requires a key locked door.
-
 Hag's End:
 The whole dungeon is enabled by default.
 
