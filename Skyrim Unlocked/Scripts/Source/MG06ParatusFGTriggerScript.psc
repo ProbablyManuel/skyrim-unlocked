@@ -1,17 +1,16 @@
-Scriptname MG06ParatusFGTriggerScript extends ObjectReference
+ScriptName MG06ParatusFGTriggerScript Extends ObjectReference
 
-Quest Property MG06 auto
-ReferenceAlias Property MG06Paratus auto
+Quest Property MG06 Auto
 
-Event OnTriggerEnter(ObjectReference ActionRef)
+ReferenceAlias Property MG06Paratus Auto
 
-	MG06QuestScript QuestScript = MG06 as MG06QuestScript
 
-	if (ActionRef == Game.GetPlayer() && MG06.IsStageDone(30))	;We do nothing if the player isn't here for MG06.
-		if (QuestScript.MG06ParatusTracker == 0)
-			QuestScript.MG06ParatusTracker=1
+Event OnTriggerEnter(ObjectReference akActionRef)
+	If (akActionRef == Game.GetPlayer() && MG06.IsStageDone(30))
+		MG06QuestScript QuestScript = MG06 As MG06QuestScript
+		If (QuestScript.MG06ParatusTracker == 0)
+			QuestScript.MG06ParatusTracker = 1
 			MG06Paratus.GetActorReference().EvaluatePackage()
-		endif
-	endif
-
-EndEvent 
+		EndIf
+	Endif
+EndEvent

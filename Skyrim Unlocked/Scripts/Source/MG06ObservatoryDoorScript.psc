@@ -1,18 +1,30 @@
-Scriptname MG06ObservatoryDoorScript extends ObjectReference
-{Starts Paratus' scence at the Observatory door in Mzulft.}
+ScriptName MG06ObservatoryDoorScript Extends ObjectReference
 
-Actor property PlayerREF auto
-Actor property MG06ParatusRef01 auto
-Quest property MG06 auto
-Scene property MG06ParatusScene auto 
-
-Int DoOnce
+Scene Property MG06ParatusScene Auto 
 
 
-Event OnActivate(ObjectReference ActionRef)
-; Debug.Trace("Door Activated")
-	if (DoOnce == 0 && ActionRef == PlayerREF && MG06.IsStageDone(30))	;We do nothing if the player isn't here for MG06.
+Event OnLoad()
+	If (MG06ParatusScene.GetOwningQuest().GetStage() > 0)
+		Lock()
+	Else
+		Lock(False)
+	EndIf
+EndEvent
+
+Event OnActivate(ObjectReference akActionRef)
+	If (akActionRef == Game.GetPlayer() && MG06ParatusScene.GetOwningQuest().GetStage() == 30)
+		GoToState("Done")
 		MG06ParatusScene.Start()
-		DoOnce = 1
-	endif
-EndEvent 
+	EndIf
+EndEvent
+
+
+State Done
+	Event OnLoad()
+		; Do nothing
+	EndEvent
+
+	Event OnActivate(ObjectReference akActionRef)
+		; Do nothing
+	EndEvent
+EndState

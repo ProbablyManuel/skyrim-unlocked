@@ -119,11 +119,11 @@ MG06QuestScript kmyQuest = __temp as MG06QuestScript
 ;BEGIN CODE
 SetObjectiveCompleted(10,1)
 SetObjectiveDisplayed(20,1)
-MzulftMapMarker.AddToMap(false)
+MzulftMapMarker.AddToMap(False)
 Mzulft01.Reset()
 Mzulft02.Reset()
 Mzulft03.Reset()
-Alias_MzulftLoc.GetLocation().SetCleared(false)
+Alias_MzulftLoc.GetLocation().SetCleared(False)
 dunMzulftEnableMarker01.Enable()
 Alias_MG06ParatusAlias.GetReference().Enable()
 Alias_MG06GavrosAlias.GetReference().Enable()
