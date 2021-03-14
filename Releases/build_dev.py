@@ -9,7 +9,6 @@ logger.setLevel(logging.WARNING)
 handler = logging.FileHandler("{}.log".format(release.__name__), "w")
 logger.addHandler(handler)
 try:
-    release.build_release(config.DIR_REPO_LE,
-                          warn_readmes=False)
+    release.build_release(config.DIR_REPO, warn_readmes=False)
 except Exception as error:
     logger.exception(error)

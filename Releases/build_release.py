@@ -12,12 +12,14 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 try:
     release.build_release(dir_src=config.DIR_REPO_LE,
-                          temp_alt=config.DIR_TEMP_ALT,
-                          arch_exe=config.ARCH_EXE_LE,
+                          bsarch=config.BSARCH,
+                          bsa_format="tes5",
+                          bsa_compress=True,
                           warn_readmes=False)
     release.build_release(dir_src=config.DIR_REPO_SE,
-                          temp_alt=config.DIR_TEMP_ALT,
-                          arch_exe=config.ARCH_EXE_SE,
+                          bsarch=config.BSARCH,
+                          bsa_format="sse",
+                          bsa_compress=True,
                           warn_readmes=False)
 except Exception as error:
     logger.exception(error)
